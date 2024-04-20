@@ -1,0 +1,638 @@
+{% extends 'base/base-processowner.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/select.css' %}">
+
+<div class="card" style="height:90vh">
+    <div class="card-body">
+        <div class="row" style="margin-top:50px;">
+            <div class="col-12">
+                <div class="text-center">
+                    <p style="font-size:35px;color:#474b4d">Welcome to AuditAI Application Setup!</h2>
+                    <div class="card" style="margin-top:20px;">
+                        <div class="card-body">
+                            <div class="text-center" style="margin-top:30px;">
+                                <p style="font-size:18px;color:#474b4d">Let's set up few configurations and data sources
+                                    for <b>{{selected_app.APP_NAME}}. </b></p>
+                                <div class="row" style="margin-top:70px;">
+                                    <div class="col-3">
+                                        <div class="text-center">
+                                            <span class="badge rounded-circle bg-info d-inline-block text-center"
+                                                style="width: 60px; height: 60px;">
+                                                <i class="fa-solid fa-lock"
+                                                    style="font-size:30px; line-height: 60px;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="text-center">
+                                            <span class="badge rounded-circle bg-info d-inline-block text-center"
+                                                style="width: 60px; height: 60px;">
+                                                <i class="fa-solid fa-cloud-arrow-up"
+                                                    style="font-size:30px; line-height: 60px;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="text-center">
+                                            <span class="badge rounded-circle bg-info d-inline-block text-center"
+                                                style="width: 60px; height: 60px;">
+                                                <i class="fa-solid fa-book"
+                                                    style="font-size:30px; line-height: 60px;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="text-center">
+                                            <span class="badge rounded-circle bg-info d-inline-block text-center"
+                                                style="width: 60px; height: 60px;">
+                                                <i class="fa-solid fa-user-tie"
+                                                    style="font-size:30px; line-height: 60px;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top:30px;">
+                                    <div class="col-3">
+                                        <div class="text-center">
+                                            <p style="font-size:14px;">Define password requirements based on the access
+                                                security policy. </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="text-center">
+                                            <p style="font-size:14px;">Setup the user access datasource for application
+                                                via SFTP server or upload manually.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="text-center">
+                                            <p style="font-size:14px;">Setup access security requirements for
+                                                provisioning and termination based on the policy.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="text-center">
+                                            <p style="font-size:14px;">Identify administrative/privileged roles for
+                                                tracking and monitoring.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top:50px;margin-bottom:50px;">
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            href="#new_app_modal">Get Started</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="new_app_modal" data-bs-backdrop="static" style="height:90vh;margin-top:18px;"
+    data-bs-keyboard="false" aria-hidden="true" aria-labelledby="new_app_modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="text-center">
+                    <div class="btn-toolbar justify-content-center" role="toolbar"
+                        aria-label="Toolbar with button groups">
+                        <div class="btn-group me-2" role="group" aria-label="First group">
+                            <button type="button" style="height:27px" class="btn btn-info rounded-circle"
+                                data-toggle="tooltip" data-bs-placement="bottom" title="Password Setup">
+                                <p style="font-size:12px;margin-top:-3px;">1</p>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2" role="group" aria-label="Second group">
+                            <button type="button" style="height:27px" class="btn btn-secondary rounded-circle"
+                                data-toggle="tooltip" data-bs-placement="bottom" title="Data Source">
+                                <p style="font-size:12px;margin-top:-3px;">2</p>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2" role="group" aria-label="Third group">
+                            <button type="button" style="height:27px" class="btn btn-secondary rounded-circle"
+                                data-toggle="tooltip" data-bs-placement="bottom" title="Access Policies">
+                                <p style="font-size:12px;margin-top:-3px;">3</p>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2" role="group" aria-label="Fourth group">
+                            <button type="button" style="height:27px" class="btn btn-secondary rounded-circle"
+                                data-toggle="tooltip" data-bs-placement="bottom" title="Admin Setup">
+                                <p style="font-size:12px;margin-top:-3px;">4</p>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <p style="font-size:20px;">Step 1: Let's start with password configuration of
+                        {{selected_app.APP_NAME}}.</p>
+                    <p style="font-size:16px;">Fill-out the applicable password attributes below.</p>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p style="font-size:14px;font-weight:bold;">Password Configuration:</p>
+                        <p style="font-size:13px;margin-top:20px;">Fill-out filelds below based on current password settings in {{selected_app.APP_NAME}}</p>
+                        <div class="row g-3 align-items-center" style="margin-top:3px;" >
+                            <div class="col-auto">
+                                <label style="font-size:12px; width:250px;" class="col-form-label">Minimum Length
+                                    :</label>
+                            </div>
+                            <div class="col-auto">
+                                <input class="form-control sm" id="length" name="length" type="text"
+                                    style="font-size:12px;width:250px;" autocomplete="off" value="{{ pw.MIN_LENGTH }}">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-items-center" style="margin-top:3px;">
+                            <div class="col-auto">
+                                <label style="font-size:12px; width:250px;" class="col-form-label">Password Age (in
+                                    Days)
+                                    :</label>
+                            </div>
+                            <div class="col-auto">
+                                <input class="form-control sm" id="age" name="age" type="text"
+                                    style="font-size:12px;width:250px;" autocomplete="off" value="{{ pw.AGE}}">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-items-center" style="margin-top:3px;">
+                            <div class="col-auto">
+                                <label style="font-size:12px; width:250px;" class="col-form-label">Max Password
+                                    Remembered/History
+                                    :</label>
+                            </div>
+                            <div class="col-auto">
+                                <input class="form-control sm" id="history" name="history" type="text"
+                                    style="font-size:12px;width:250px;" autocomplete="off" value="{{ pw.HISTORY}}">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-items-center" style="margin-top:3px;">
+                            <div class="col-auto">
+                                <label style="font-size:12px; width:250px;" class="col-form-label">Max Login
+                                    Attempt/Account Lockout:
+                                    :</label>
+                            </div>
+                            <div class="col-auto">
+                                <input class="form-control sm" id="lockout" name="lockout" type="text"
+                                    style="font-size:12px;width:250px;" autocomplete="off" value="{{ pw.LOCKOUT}}">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-items-center" style="margin-top:3px;">
+                            <div class="col-auto">
+                                <label style="font-size:12px; width:250px;" class="col-form-label">Lockout Duration (in
+                                    Minutes):
+                                </label>
+                            </div>
+                            <div class="col-auto">
+                                <input class="form-control sm" id="lockout_duration" name="lockout_duration" type="text"
+                                    style="font-size:12px;width:250px;" autocomplete="off"
+                                    value="{{ pw.LOCKOUT_DURATION}}">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-items-center" style="margin-top:3px;">
+                            <div class="col-auto">
+                                <label style="font-size:12px; width:250px;" class="col-form-label">Require Special
+                                    Character?
+                                </label>
+                            </div>
+                            <div class="col-auto">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" name="req_specialchar"
+                                        id="req_specialchar" {% if pw.HAS_SPECIALCHAR %} checked="checked" {% endif %}>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-items-center" style="margin-top:3px;">
+                            <div class="col-auto">
+                                <label style="font-size:12px; width:250px;" class="col-form-label">Require Upper Case?
+                                </label>
+                            </div>
+                            <div class="col-auto">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="req_uppercase"
+                                        name="req_uppercase" {% if pw.HAS_UPPER %} checked="checked" {% endif %}>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-items-center" style="margin-top:3px;">
+                            <div class="col-auto">
+                                <label style="font-size:12px; width:250px;" class="col-form-label">Require Lower Case?
+                                </label>
+                            </div>
+                            <div class="col-auto">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" name="req_lowercase"
+                                        id="req_lowercase" {% if pw.HAS_LOWER %} checked="checked" {% endif %}>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-items-center" style="margin-top:3px;">
+                            <div class="col-auto">
+                                <label style="font-size:12px; width:250px;" class="col-form-label">Require Numeric?
+                                </label>
+                            </div>
+                            <div class="col-auto">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" name="req_numeric"
+                                        id="req_numeric" {% if pw.HAS_NUMERIC %} checked="checked" {% endif %}>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="margin-top:30px;">
+                <button class="btn btn-primary btn-sm" data-bs-target="#new_app_modal2" data-bs-toggle="modal"
+                    data-bs-dismiss="modal">Save and Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="new_app_modal2" aria-hidden="true" data-bs-backdrop="static"
+    style="height:90vh;margin-top:18px;" aria-labelledby="new_app_modal2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="text-center">
+                    <div class="btn-toolbar justify-content-center" role="toolbar"
+                        aria-label="Toolbar with button groups">
+                        <div class="btn-group me-2" role="group" aria-label="First group">
+                            <button type="button" style="height:27px" class="btn btn-secondary rounded-circle"
+                                data-toggle="tooltip" data-bs-placement="bottom" title="Password Setup">
+                                <p style="font-size:12px;margin-top:-3px;">1</p>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2" role="group" aria-label="Second group">
+                            <button type="button" style="height:27px" class="btn btn-info rounded-circle"
+                                data-toggle="tooltip" data-bs-placement="bottom" title="Data Source">
+                                <p style="font-size:12px;margin-top:-3px;">2</p>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2" role="group" aria-label="Third group">
+                            <button type="button" style="height:27px" class="btn btn-secondary rounded-circle"
+                                data-toggle="tooltip" data-bs-placement="bottom" title="Access Policies">
+                                <p style="font-size:12px;margin-top:-3px;">3</p>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2" role="group" aria-label="Fourth group">
+                            <button type="button" style="height:27px" class="btn btn-secondary rounded-circle"
+                                data-toggle="tooltip" data-bs-placement="bottom" title="Admin Setup">
+                                <p style="font-size:12px;margin-top:-3px;">4</p>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <p style="font-size:20px;">Step 2: Next, let's import the user access report for
+                        {{selected_app.APP_NAME}} via SFTP or manual upload.</p>
+                    <p style="font-size:16px;">Let's configure the SFPT server and create a job schedule to regularly
+                        update database. </p>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <p style="font-size:14px;font-weight:bold;">SFTP Configuration:</p>
+                                <p style="font-size:13px;">Add your SFTP credentials and file directory where the system
+                                    will pick up the file.</p>
+                                <div class="row g-3 align-items-center" style="margin-top:3px;">
+                                    <div class="col-auto">
+                                        <label style="font-size:12px;; width:150px;" class="col-form-label">Host
+                                            Name:
+                                        </label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input class="form-control sm" id="host_name" name="host_name" type="text"
+                                            style="font-size:12px;width:250px;" autocomplete="off" value="">
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-items-center" style="margin-top:3px;">
+                                    <div class="col-auto">
+                                        <label style="font-size:12px;width:150px;;" class="col-form-label"> File
+                                            Directory:
+                                        </label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input class="form-control sm" id="sftp_retypepassword"
+                                            name="sftp_retypepassword" type="text" style="font-size:12px;width:250px;"
+                                            autocomplete="off" value="">
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-items-center" style="margin-top:3px;">
+                                    <div class="col-auto">
+                                        <label style="font-size:12px;width:150px;;" class="col-form-label"> User
+                                            Name:
+                                        </label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input class="form-control sm" id="sftp_username" name="sftp_username"
+                                            type="text" style="font-size:12px;width:250px;" autocomplete="off" value="">
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-items-center" style="margin-top:3px;">
+                                    <div class="col-auto">
+                                        <label style="font-size:12px;width:150px;;" class="col-form-label">
+                                            Password:
+                                        </label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input class="form-control sm" id="sftp_password" name="sftp_password"
+                                            type="password" style="font-size:12px;width:250px;" autocomplete="off"
+                                            value="">
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-items-center" style="margin-top:3px;">
+                                    <div class="col-auto">
+                                        <label style="font-size:12px;width:150px;;" class="col-form-label">
+                                            Retype Password:
+                                        </label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input class="form-control sm" id="sftp_retypepassword"
+                                            name="sftp_retypepassword" type="password"
+                                            style="font-size:12px;width:250px;" autocomplete="off" value="">
+                                    </div>
+                                </div>
+
+                                <div style="border-bottom:solid;border-color:lightgray" style="font-size:13px">
+                                    <p style="font-size:13px;margin-top:40px;"></p>
+                                </div>
+                                <p style="font-size:14px;font-weight:bold;margin-top:15px;">Job Schedule:</p>
+
+                                <p style="font-size:13px;margin-top:20px;">Select which days you want the file to be
+                                    retrieved from SFTP Server.</p>
+
+                                <div class="btn-group btn-group" role="group">
+                                    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off"
+                                        style="margin-right: 3px; transform: scale(0.8);">
+                                    <label class="btn btn-outline-secondary" for="btncheck1">Mon</label>
+                                </div>
+                                <div class="btn-group btn-group" role="group">
+                                    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off"
+                                        style="margin-right: 3px; transform: scale(0.8);">
+                                    <label class="btn btn-outline-secondary" for="btncheck2">Tue</label>
+                                </div>
+                                <div class="btn-group btn-group" role="group">
+                                    <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off"
+                                        style="margin-right: 3px; transform: scale(0.8);">
+                                    <label class="btn btn-outline-secondary" for="btncheck3">Wed</label>
+                                </div>
+                                <div class="btn-group btn-group" role="group">
+                                    <input type="checkbox" class="btn-check" id="btncheck4" autocomplete="off"
+                                        style="margin-right: 3px; transform: scale(0.8);">
+                                    <label class="btn btn-outline-secondary" for="btncheck4">Thu</label>
+                                </div>
+                                <div class="btn-group btn-group" role="group">
+                                    <input type="checkbox" class="btn-check" id="btncheck5" autocomplete="off"
+                                        style="margin-right: 3px; transform: scale(0.8);">
+                                    <label class="btn btn-outline-secondary" for="btncheck5">Fri</label>
+                                </div>
+                                <div class="btn-group btn-group" role="group">
+                                    <input type="checkbox" class="btn-check" id="btncheck6" autocomplete="off"
+                                        style="margin-right: 3px; transform: scale(0.8);">
+                                    <label class="btn btn-outline-secondary" for="btncheck6">Sat</label>
+                                </div>
+                                <div class="btn-group btn-group" role="group">
+                                    <input type="checkbox" class="btn-check" id="btncheck7" autocomplete="off"
+                                        style="transform: scale(0.8);">
+                                    <label class="btn btn-outline-secondary" for="btncheck7">Sun</label>
+                                </div>
+
+                                <p style="font-size:13px;margin-top:20px;">Pick a time that you want this job to run.
+                                </p>
+
+                                <select class="form-select" aria-label="Default select example"
+                                    style="max-height:120px;overflow-y: auto;width:250px;font-size:12px;">
+                                    <option selected>Select time</option>
+                                    <option value="00:00">12:00 AM</option>
+                                    <option value="01:00">1:00 AM</option>
+                                    <option value="02:00">2:00 AM</option>
+                                    <option value="03:00">3:00 AM</option>
+                                    <option value="04:00">4:00 AM</option>
+                                    <option value="05:00">5:00 AM</option>
+                                    <option value="06:00">6:00 AM</option>
+                                    <option value="07:00">7:00 AM</option>
+                                    <option value="08:00">8:00 AM</option>
+                                    <option value="09:00">9:00 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="12:00">12:00 PM</option>
+                                    <option value="13:00">1:00 PM</option>
+                                    <option value="14:00">2:00 PM</option>
+                                    <option value="15:00">3:00 PM</option>
+                                    <option value="16:00">4:00 PM</option>
+                                    <option value="17:00">5:00 PM</option>
+                                    <option value="18:00">6:00 PM</option>
+                                    <option value="19:00">7:00 PM</option>
+                                    <option value="20:00">8:00 PM</option>
+                                    <option value="21:00">9:00 PM</option>
+                                    <option value="22:00">10:00 PM</option>
+                                    <option value="23:00">11:00 PM</option>
+                                </select>
+
+                                <div style="border-bottom:solid;border-color:lightgray" style="font-size:13px">
+                                    <p style="font-size:13px;margin-top:40px;"></p>
+                                </div>
+                                <p style="font-size:14px;font-weight:bold;margin-top:15px;">Manual Upload:</p>
+
+                                <p style="font-size:13px;margin-top:20px;">You can also manually import the upload
+                                    template if SFTP server is not yet available. You may download the user upload
+                                    template here.</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-sm" data-bs-target="#new_app_modal3" data-bs-toggle="modal"
+                    data-bs-dismiss="modal">Save and Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="new_app_modal3" aria-hidden="true" data-bs-backdrop="static"
+    style="height:90vh;margin-top:18px;" aria-labelledby="new_app_modal3" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="text-center">
+                    <div class="btn-toolbar justify-content-center" role="toolbar"
+                        aria-label="Toolbar with button groups">
+                        <div class="btn-group me-2" role="group" aria-label="First group">
+                            <button type="button" style="height:27px" class="btn btn-secondary rounded-circle"
+                                data-toggle="tooltip" data-bs-placement="bottom" title="Password Setup">
+                                <p style="font-size:12px;margin-top:-3px;">1</p>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2" role="group" aria-label="Second group">
+                            <button type="button" style="height:27px" class="btn btn-secondary rounded-circle"
+                                data-toggle="tooltip" data-bs-placement="bottom" title="Data Source">
+                                <p style="font-size:12px;margin-top:-3px;">2</p>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2" role="group" aria-label="Third group">
+                            <button type="button" style="height:27px" class="btn btn-info rounded-circle"
+                                data-toggle="tooltip" data-bs-placement="bottom" title="Access Policies">
+                                <p style="font-size:12px;margin-top:-3px;">3</p>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2" role="group" aria-label="Fourth group">
+                            <button type="button" style="height:27px" class="btn btn-secondary rounded-circle"
+                                data-toggle="tooltip" data-bs-placement="bottom" title="Admin Setup">
+                                <p style="font-size:12px;margin-top:-3px;">4</p>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <p style="font-size:20px;">Step 3: Let's define access related security policies for
+                        {{selected_app.APP_NAME}}.</p>
+                    <p style="font-size:16px;">Complete the required fields below.</p>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <p style="font-size:14px;font-weight:bold;">Access Provisioning:</p>
+                                <p style="font-size:13px;">Is access documentation and approval required before a user
+                                    is granted access to {{selected_app.APP_NAME}}?</p>
+                                <div class="form-check form-check-inline" style="font-size:12px;">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+                                        value="option1">
+                                    <label class="form-check-label" for="inlineCheckbox1">Yes</label>
+                                </div>
+                                <div class="form-check form-check-inline" style="font-size:12px;">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2"
+                                        value="option2">
+                                    <label class="form-check-label" for="inlineCheckbox2">No</label>
+                                </div>
+                                <div class="form-check form-check-inline" style="font-size:12px;">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-auto">
+                                            <label style="font-size:12px;" class="col-form-label">Add rationale if No
+                                                (optional):
+                                            </label>
+                                        </div>
+                                        <div class="col-auto">
+                                            <input class="form-control sm" id="host_name" name="host_name" type="text"
+                                                style="font-size:12px;width:300px;" autocomplete="off" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <p style="font-size:13px;margin-top:20px;">Who are the required approvers?</p>
+                                <div class="form-check form-check-inline" style="font-size:12px;">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+                                        value="option1">
+                                    <label class="form-check-label" for="inlineCheckbox1">Supervisor/Manager or equivalent</label>
+                                </div>
+                                <div class="form-check form-check-inline" style="font-size:12px;">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2"
+                                        value="option2">
+                                    <label class="form-check-label" for="inlineCheckbox2">IT System Owner</label>
+                                </div>
+
+                                <div style="border-bottom:solid;border-color:lightgray" style="font-size:13px">
+                                    <p style="font-size:13px;margin-top:40px;"></p>
+                                </div>
+                                <p style="font-size:14px;font-weight:bold;margin-top:15px;">Access Termination:</p>
+                                <p style="font-size:13px;margin-top:20px;">What is the required number of days for revoking/disabling access of terminated employees/contractors within {{selected_app.APP_NAME}}?</p>
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-auto">
+                                        <label style="font-size:12px;" class="col-form-label">No. of days
+                                            :</label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input class="form-control sm" id="history" name="history" type="text"
+                                            style="font-size:12px;width:100px;" autocomplete="off">
+                                    </div>
+                                </div>
+                                <p style="font-size:13px;margin-top:20px;">Which team responsible in notifying system admins for terminated employees?</p>
+                                <div class="form-check form-check-inline" style="font-size:12px;">
+                                    <input class="form-check-input" type="checkbox" id=""
+                                        value="option1">
+                                    <label class="form-check-label" for="">HR</label>
+                                </div>
+                                <div class="form-check form-check-inline" style="font-size:12px;">
+                                    <input class="form-check-input" type="checkbox" id=""
+                                        value="option1">
+                                    <label class="form-check-label" for="">Employee's Supervisor/Manager</label>
+                                </div>
+                                <p style="font-size:13px;margin-top:20px;">How are systems administrators notified of terminated employees?</p>
+                                <div class="form-check form-check-inline" style="font-size:12px;">
+                                    <input class="form-check-input" type="checkbox" id=""
+                                        value="option1">
+                                    <label class="form-check-label" for="">Email/Tickets</label>
+                                </div>
+                                <div class="form-check form-check-inline" style="font-size:12px;">
+                                    <input class="form-check-input" type="checkbox" id=""
+                                        value="option1">
+                                    <label class="form-check-label" for="">Verbal</label>
+                                </div>
+
+                                <div style="border-bottom:solid;border-color:lightgray" style="font-size:13px">
+                                    <p style="font-size:13px;margin-top:40px;"></p>
+                                </div>
+                                <p style="font-size:14px;font-weight:bold;margin-top:15px;">Administrative Roles:</p>
+                                <p style="font-size:13px;margin-top:20px;">Which of the roles below provide access to manage employees and modify system configurations in {{selected_app.APP_NAME}}?</p>
+                                
+                                <div class="row g-3 align-items-center" style="max-width: 300px;">
+                                    <div class="col-auto">
+                                        <input type="hidden" name="group_selected_values" id="control_selected_values">
+                                        <select name="role_list" id="role_list" style="font-size:12px;" class="selectpicker" multiple data-live-search="true" required>
+                                            {% for group in selected_groups %}
+                                                <option value="{{ group.id }}" {% if group in selected_user.groups.all %} selected {% endif %}>{{ group.name }}</option>
+                                            {% endfor %}
+                                            {% for group in non_selected_groups %}
+                                                <option value="{{ group.id }}">{{ group.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="margin-top:30px;">
+                <button class="btn btn-primary btn-sm" data-bs-target="#new_app_modal4" data-bs-toggle="modal"
+                    data-bs-dismiss="modal">Save and Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/select.js' %}"></script>
+<script>
+    new MultiSelectTag('role_list', {
+        rounded: true,
+        shadow: true,
+        placeholder: 'Select Role',
+    })
+</script>
+
+{% endblock content %}
+
