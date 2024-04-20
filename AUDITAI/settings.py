@@ -82,8 +82,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'auditaidb3',
-        'USERNAME':'root',
-        'PASSWORD':'Robertjohn89'
+        'USER':'admin',
+        'PASSWORD':'Robertjohn89',
+        'HOST': 'auditaidb3.cjm6waa4c1dh.us-west-1.rds.amazonaws.com',  # This should be the endpoint of your RDS instance or the host of your MySQL server
+        'PORT': '3306',  # This is usually 3306 for MySQL
     }
 }
 
